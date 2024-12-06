@@ -1,6 +1,7 @@
 package com.myapp.assignment13;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.LinkedHashMap;
@@ -35,11 +36,13 @@ public class CartController {
       Map<String, Object> response = new LinkedHashMap<>();
       // create the catalogue object
       Catalogue catalogue = new Catalogue();
+      catalogue.setCatalogueId(cartModel.getCartModelId());
       catalogue.setCatalogueName(cartModel.getCartModelName());
       catalogue.setCataloguePrice(cartModel.getCartModelPrice());
       catalogue.setCatalogueShortDesc(cartModel.getCartModelShortDesc());
       // create the cart object
       Cart cart = new Cart();
+      cart.setCartId(cartModel.getCartModelId());
       cart.setCartQuantity(cartModel.getCartModelQuantity());
       cart.setMappedByCatalogue(catalogue); // set the foreign element
       // save the new cart to the repo
@@ -61,6 +64,7 @@ public class CartController {
       // the cart model.
       for(Cart cart: cartList){
         CartModel cartModel = new CartModel();
+        cartModel.setCartModelId(cart.getCartId());
         cartModel.setCartModelName(cart.getMappedByCatalogue().getCatalogueName());
         cartModel.setCartModelPrice(cart.getMappedByCatalogue().getCataloguePrice());
         cartModel.setCartModelShortDesc(cart.getMappedByCatalogue().getCatalogueShortDesc());
@@ -90,6 +94,7 @@ public class CartController {
     // if a cart is found
     if(cart!=null){
       CartModel cartModel = new CartModel();
+      cartModel.setCartModelId(cart.getCartId());
       cartModel.setCartModelName(cart.getMappedByCatalogue().getCatalogueName());
       cartModel.setCartModelPrice(cart.getMappedByCatalogue().getCataloguePrice());
       cartModel.setCartModelShortDesc(cart.getMappedByCatalogue().getCatalogueShortDesc());
@@ -107,5 +112,41 @@ public class CartController {
       return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
     }    
   }
-  
+ 
+  // GET: find by catalogue name
+  @GetMapping("/search")
+  public ResponseEntity<?> findByCatalogueName(@RequestParam String catalogueName){
+    Map<String, Object> response = new LinkedHashMap<>();
+    List<Catalogue> catalogueList = catalogueService.findByCatalogueName(catalogueName);
+    // List the cart model
+    List<CartModel> cartModelList = new ArrayList<>();
+    // iterate the results
+    if(!catalogueList.isEmpty()){
+      // iterate the cart list one by one to put into
+      // the cart model.
+      for(Catalogue catalogue: catalogueList){
+        CartModel cartModel = new CartModel();
+        cartModel.setCartModelId(catalogue.getCatalogueId());
+        cartModel.setCartModelName(catalogue.getCatalogueName());
+        cartModel.setCartModelPrice(catalogue.getCataloguePrice());
+        cartModel.setCartModelShortDesc(catalogue.getCatalogueShortDesc());
+        cartModel.setCartModelQuantity(catalogue.getOwnedByCart().getCartQuantity());
+        // push this element to the CartModel list.
+        // this list will be in the response
+        cartModelList.add(cartModel);
+      }
+      // prepare the response
+      response.put("status", "Successful");
+      response.put("data", cartModelList);
+      return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    // results are empty
+    else {
+      response.clear();
+      response.put("status", "Failed");
+      response.put("message", "No data are found.");
+      return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
+    }
+
+  }
 }

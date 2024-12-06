@@ -34,7 +34,7 @@ import lombok.ToString;
 public class Catalogue {
   // primary key
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  //@GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "catalogue_id")
   public Long catalogueId;
 

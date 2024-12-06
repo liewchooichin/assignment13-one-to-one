@@ -33,7 +33,7 @@ import lombok.ToString;
 public class Cart {
   // primary key
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  //@GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "cart_id")
   public Long cartId;
 

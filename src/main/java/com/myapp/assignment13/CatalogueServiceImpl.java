@@ -12,9 +12,15 @@ public class CatalogueServiceImpl implements CatalogueService {
   public CatalogueServiceImpl(CatalogueRepository catalogueRepo)  {
     this.catalogueRepo = catalogueRepo;
   }
-
+  // find all
   @Override
   public List<Catalogue> findAll(){
     return catalogueRepo.findAll();
   };
+  // find by catalogue name
+  @Override
+  public List<Catalogue> findByCatalogueName(String catalogueName){
+    List<Catalogue> results = catalogueRepo.  findByCatalogueNameContainsIgnoreCase(catalogueName);
+    return results;
+  }
 }

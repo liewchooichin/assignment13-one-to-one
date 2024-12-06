@@ -23,6 +23,7 @@ public class CartModel {
    * This class is necessary to display to results of mapping.
    * This will prevent recursive loop.
    */
+  private Long cartModelId;
   private String cartModelName;
   private Double cartModelPrice;
   private String cartModelShortDesc;
