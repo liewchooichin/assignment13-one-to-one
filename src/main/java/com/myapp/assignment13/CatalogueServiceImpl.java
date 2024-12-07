@@ -20,7 +20,8 @@ public class CatalogueServiceImpl implements CatalogueService {
   // find by catalogue name
   @Override
   public List<Catalogue> findByCatalogueName(String catalogueName){
-    List<Catalogue> results = catalogueRepo.  findByCatalogueNameContainsIgnoreCase(catalogueName);
+    List<Catalogue> results = 
+      catalogueRepo.findByCatalogueNameContainsIgnoreCase(catalogueName);
     return results;
   }
 }

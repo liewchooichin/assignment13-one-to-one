@@ -48,17 +48,17 @@ public class CartControllerTest {
   // then inject the mock repository into the service
   /*
   @Mock
-  private EmployeeRepository employeeRepository;
+  private CartRepository cartRepository;
   @InjectMocks
-  EmployeeServiceImpl employeeService;  
+  CartServiceImpl cartService;  
   
   @Mock
-  private AddressRepository addressRepository;
+  private CatalogueRepository catalogueRepository;
   @InjectMocks
-  AddressServiceImpl addressService;
+  CatalogueServiceImpl catalogueService;
   */
 
-  // GET one employee - OK
+  // GET one record - OK
   @Test
   public void testGetOneCart_Success() throws Exception {
     // create a sample
@@ -79,7 +79,7 @@ public class CartControllerTest {
         .value("Multi-purpose cooking oven"));     
   }
 
-    // GET one employee - No such employee
+    // GET one record - No such cart
     @Test
     public void testGetOneCart_Fail() throws Exception {
       // create a sample
@@ -93,7 +93,7 @@ public class CartControllerTest {
         .andExpect(jsonPath("$.status").value("Failed"));
     }
 
-  // Get all employees
+  // Get all carts
   @Test
   public void getAllCarts() throws Exception {
     // Build the request
@@ -105,7 +105,7 @@ public class CartControllerTest {
       .andExpect(jsonPath("$.status").value("Successful"));
   }
   
-  // Create an employee
+  // Create an cart
   @Test
   public void testCreateCart_Success() throws Exception {
     // Create an employee 
@@ -129,7 +129,7 @@ public class CartControllerTest {
       .andExpect(jsonPath("$.status").value("Successful")); // 1 - OK
   }
 
-  // search for employee's name
+  // search for cart's name
   @Test
   public void searchCartNameTest() throws Exception{
     // build the request

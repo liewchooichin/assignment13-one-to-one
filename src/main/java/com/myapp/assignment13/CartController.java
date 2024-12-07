@@ -126,7 +126,7 @@ public class CartController {
       // the cart model.
       for(Catalogue catalogue: catalogueList){
         CartModel cartModel = new CartModel();
-        cartModel.setCartModelId(catalogue.getCatalogueId());
+        cartModel.setCartModelId(catalogue.getCatalogueId()); // both catalogue and cart have the same id
         cartModel.setCartModelName(catalogue.getCatalogueName());
         cartModel.setCartModelPrice(catalogue.getCataloguePrice());
         cartModel.setCartModelShortDesc(catalogue.getCatalogueShortDesc());
@@ -147,6 +147,5 @@ public class CartController {
       response.put("message", "No data are found.");
       return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
     }
-
   }
 }
